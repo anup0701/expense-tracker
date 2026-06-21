@@ -1,0 +1,25 @@
+# Development Dockerfile
+# Use Node.js Alpine image for smaller size
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files first for better caching
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies for hot-reload)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose the application port (Vite dev server)
+EXPOSE 3000
+
+# Set environment variables for development
+ENV NODE_ENV=development
+ENV VITE_API_URL=http://localhost:5000
+
+# Run the application with Vite for hot-reload
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

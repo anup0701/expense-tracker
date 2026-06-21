@@ -1,0 +1,20 @@
+export const AVAILABLE_ICONS = [
+  { name: 'Salary/Wallet', key: 'LuWallet' },
+  { name: 'Income/Trending', key: 'LuTrendingUp' },
+  { name: 'Business', key: 'LuBuilding2' },
+  { name: 'Freelance/Laptop', key: 'LuLaptop' },
+  { name: 'Gift', key: 'LuGift' },
+  { name: 'Food/Dining', key: 'LuUtensils' },
+  { name: 'ShoppingBag', key: 'LuShoppingBag' },
+  { name: 'ShoppingCart', key: 'LuShoppingCart' },
+  { name: 'Transportation', key: 'LuCar' },
+  { name: 'Entertainment', key: 'LuClapperboard' },
+  { name: 'Utilities', key: 'LuLightbulb' },
+  { name: 'Healthcare', key: 'LuStethoscope' },
+  { name: 'Education', key: 'LuGraduationCap' },
+  { name: 'Travel', key: 'LuPlane' },
+  { name: 'Home/Rent', key: 'LuHome' },
+  { name: 'Savings', key: 'LuPiggyBank' },
+  { name: 'Taxes', key: 'LuFileText' },
+  { name: 'CreditCard', key: 'LuCreditCard' }
+];

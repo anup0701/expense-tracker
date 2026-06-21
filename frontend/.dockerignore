@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build outputs (we rebuild in Docker)
+dist
+build
+
+# Development files
+.git
+.gitignore
+.vscode
+*.md
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

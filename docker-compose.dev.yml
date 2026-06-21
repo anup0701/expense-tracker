@@ -1,0 +1,82 @@
+# Development Docker Compose configuration
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: expense-tracker-db-dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword123
+      MYSQL_DATABASE: expense_tracker
+      MYSQL_USER: expense_user
+      MYSQL_PASSWORD: expense123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data_dev_v2:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - expense-tracker-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "expense_user", "-pexpense123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: expense-tracker-backend-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DB_HOST: db
+      DB_USER: expense_user
+      DB_PASSWORD: expense123
+      DB_NAME: expense_tracker
+      DB_PORT: 3306
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - expense-tracker-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: expense-tracker-frontend-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      VITE_API_URL: http://localhost:5000/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - expense-tracker-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+networks:
+  expense-tracker-network:
+    driver: bridge
+
+volumes:
+  mysql_data_dev_v2:
