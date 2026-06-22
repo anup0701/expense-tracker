@@ -76,7 +76,7 @@ function Dashboard({ refreshTrigger }) {
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {[2024, 2023, 2022].map(year => (
+            {[2026,2025,2024, 2023, 2022].map(year => (
               <option key={year} value={year}>{year}</option>
             ))}
           </select>
